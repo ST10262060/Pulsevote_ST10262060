@@ -57,3 +57,24 @@ const protect = (req, res, next) => {
 };
 
 module.exports = { protect };
+
+app.use(
+helmet.contentSecurityPolicy({
+    directives: {
+    defaultSrc: ["'self'"],
+    scriptSrc: ["'self'", "https://apis.google.com"],
+    styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+    fontSrc: ["'self'", "https://fonts.gstatic.com"],
+    imgSrc: ["'self'", "data:"],
+    connectSrc: ["'self'", "http://localhost:5000"], // or whichever port you use
+    },
+})
+);
+
+const organisationRoutes = require("./routes/organisationRoutes");
+
+app.use("/api/organisations", organisationRoutes);
+
+const pollRoutes = require("./routes/pollRoutes");
+
+app.use("/api/polls", pollRoutes);
